@@ -1,6 +1,6 @@
 package jsonrpc
 
-import "github.com/umbracle/ethgo"
+import "github.com/git-yongge/ethgo"
 
 type Debug struct {
 	c *Client

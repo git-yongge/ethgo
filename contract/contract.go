@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/abi"
-	"github.com/umbracle/ethgo/jsonrpc"
-	"github.com/umbracle/ethgo/wallet"
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/abi"
+	"github.com/git-yongge/ethgo/jsonrpc"
+	"github.com/git-yongge/ethgo/wallet"
 )
 
 // Provider handles the interactions with the Ethereum 1x node

@@ -1,7 +1,7 @@
 package jsonrpc
 
 import (
-	"github.com/umbracle/ethgo/jsonrpc/transport"
+	"github.com/git-yongge/ethgo/jsonrpc/transport"
 )
 
 // Client is the jsonrpc client

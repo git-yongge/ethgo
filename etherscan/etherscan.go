@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/jsonrpc/codec"
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/jsonrpc/codec"
 	"github.com/valyala/fasthttp"
 )
 

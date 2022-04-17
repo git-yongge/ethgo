@@ -5,9 +5,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/testsuite"
 	"github.com/stretchr/testify/assert"
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/testsuite"
 )
 
 func TestKeySign(t *testing.T) {

@@ -3,11 +3,11 @@ package erc20
 import (
 	"testing"
 
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/contract"
+	"github.com/git-yongge/ethgo/jsonrpc"
+	"github.com/git-yongge/ethgo/testutil"
 	"github.com/stretchr/testify/assert"
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/contract"
-	"github.com/umbracle/ethgo/jsonrpc"
-	"github.com/umbracle/ethgo/testutil"
 )
 
 var (
