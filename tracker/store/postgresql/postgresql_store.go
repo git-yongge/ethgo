@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/git-yongge/ethgo"
-	"github.com/git-yongge/ethgo/tracker/store"
 	"github.com/jmoiron/sqlx"
+	"github.com/umbracle/ethgo"
+	"github.com/umbracle/ethgo/tracker/store"
 
 	// Enable postgres for sqlx
 	_ "github.com/lib/pq"

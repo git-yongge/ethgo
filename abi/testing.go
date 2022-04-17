@@ -7,7 +7,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/git-yongge/ethgo"
+	"github.com/umbracle/ethgo"
 )
 
 func randomInt(min, max int) int {

@@ -7,14 +7,13 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/git-yongge/ethgo"
-	"github.com/git-yongge/ethgo/contract"
-	"github.com/git-yongge/ethgo/jsonrpc"
+	"github.com/umbracle/ethgo"
+	"github.com/umbracle/ethgo/contract"
+	"github.com/umbracle/ethgo/jsonrpc"
 )
 
 var (
 	_ = big.NewInt
-	_ = jsonrpc.NewClient
 )
 
 // Testdata is a solidity contract
@@ -23,8 +22,13 @@ type Testdata struct {
 }
 
 // NewTestdata creates a new instance of the contract at a specific address
-func NewTestdata(addr ethgo.Address, opts ...contract.ContractOption) *Testdata {
-	return &Testdata{c: contract.NewContract(addr, abiTestdata, opts...)}
+func NewTestdata(addr ethgo.Address, provider *jsonrpc.Client) *Testdata {
+	return &Testdata{c: contract.NewContract(addr, abiTestdata, provider)}
+}
+
+// Contract returns the contract object
+func (t *Testdata) Contract() *contract.Contract {
+	return t.c
 }
 
 // calls
@@ -57,12 +61,12 @@ func (t *Testdata) CallBasicInput(block ...ethgo.BlockNumber) (retval0 *big.Int,
 // txns
 
 // TxnBasicInput sends a txnBasicInput transaction in the solidity contract
-func (t *Testdata) TxnBasicInput(val1 ethgo.Address, val2 *big.Int) (contract.Txn, error) {
+func (t *Testdata) TxnBasicInput(val1 ethgo.Address, val2 *big.Int) *contract.Txn {
 	return t.c.Txn("txnBasicInput", val1, val2)
 }
 
 // events
 
 func (t *Testdata) EventBasicEventSig() ethgo.Hash {
-	return t.c.GetABI().Events["EventBasic"].ID()
+	return t.c.ABI().Events["EventBasic"].ID()
 }

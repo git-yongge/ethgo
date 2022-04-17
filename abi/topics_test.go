@@ -6,9 +6,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/git-yongge/ethgo"
-	"github.com/git-yongge/ethgo/testutil"
 	"github.com/stretchr/testify/assert"
+	"github.com/umbracle/ethgo"
+	"github.com/umbracle/ethgo/testutil"
 )
 
 func TestTopicEncoding(t *testing.T) {
@@ -67,17 +67,9 @@ func TestIntegrationTopics(t *testing.T) {
 		fields []field
 	}{
 		{
-			// uint
 			fields: []field{
 				{"uint32", false, uint32(1), "1"},
 				{"uint8", true, uint8(10), "10"},
-			},
-		},
-		{
-			// fixed bytes
-			fields: []field{
-				{"bytes1", false, [1]byte{0x1}, "0x01"},
-				{"bytes1", true, [1]byte{0x1}, "0x01"},
 			},
 		},
 	}

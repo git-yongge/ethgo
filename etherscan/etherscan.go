@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/git-yongge/ethgo"
-	"github.com/git-yongge/ethgo/jsonrpc/codec"
+	"github.com/umbracle/ethgo"
+	"github.com/umbracle/ethgo/jsonrpc/codec"
 	"github.com/valyala/fasthttp"
 )
 
@@ -146,55 +146,6 @@ func (e *Etherscan) GetContractCode(addr ethgo.Address) (*ContractCode, error) {
 		return nil, fmt.Errorf("incorrect values")
 	}
 	return out[0], nil
-}
-
-func (e *Etherscan) GasPrice() (uint64, error) {
-	var out struct {
-		LastBlock string `json:"LastBlock"`
-	}
-	if err := e.Query("gastracker", "gasoracle", &out, map[string]string{}); err != nil {
-		return 0, err
-	}
-	num, err := strconv.Atoi(out.LastBlock)
-	if err != nil {
-		return 0, err
-	}
-	return uint64(num), nil
-}
-
-func (e *Etherscan) GetLogs(filter *ethgo.LogFilter) ([]*ethgo.Log, error) {
-	if len(filter.Address) == 0 {
-		return nil, fmt.Errorf("an address to filter is required")
-	}
-	strBlockNumber := func(b ethgo.BlockNumber) string {
-		switch b {
-		case ethgo.Latest:
-			return "latest"
-		case ethgo.Earliest:
-			return "earliest"
-		case ethgo.Pending:
-			return "pending"
-		}
-		if b < 0 {
-			panic("internal. blocknumber is negative")
-		}
-		return fmt.Sprintf("%d", uint64(b))
-	}
-
-	params := map[string]string{
-		"address": filter.Address[0].String(),
-	}
-	if filter.From != nil {
-		params["fromBlock"] = strBlockNumber(*filter.From)
-	}
-	if filter.To != nil {
-		params["toBlock"] = strBlockNumber(*filter.To)
-	}
-	var out []*ethgo.Log
-	if err := e.Query("logs", "getLogs", &out, params); err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func parseUint64orHex(str string) (uint64, error) {

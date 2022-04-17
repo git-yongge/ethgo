@@ -9,9 +9,9 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/git-yongge/ethgo/abi"
-	"github.com/git-yongge/ethgo/cmd/version"
-	"github.com/git-yongge/ethgo/compiler"
+	"github.com/umbracle/ethgo/abi"
+	"github.com/umbracle/ethgo/cmd/version"
+	"github.com/umbracle/ethgo/compiler"
 )
 
 type config struct {
@@ -182,14 +182,13 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/git-yongge/ethgo"
-	"github.com/git-yongge/ethgo/contract"
-	"github.com/git-yongge/ethgo/jsonrpc"
+	"github.com/umbracle/ethgo"
+	"github.com/umbracle/ethgo/contract"
+	"github.com/umbracle/ethgo/jsonrpc"
 )
 
 var (
 	_ = big.NewInt
-	_ = jsonrpc.NewClient
 )
 
 // {{.Name}} is a solidity contract
@@ -198,13 +197,18 @@ type {{.Name}} struct {
 }
 {{if .Contract.Bin}}
 // Deploy{{.Name}} deploys a new {{.Name}} contract
-func Deploy{{.Name}}(provider *jsonrpc.Client, from ethgo.Address, args []interface{}, opts ...contract.ContractOption) (contract.Txn, error) {
-	return contract.DeployContract(abi{{.Name}}, bin{{.Name}}, args, opts...)
+func Deploy{{.Name}}(provider *jsonrpc.Client, from ethgo.Address, args ...interface{}) *contract.Txn {
+	return contract.DeployContract(provider, from, abi{{.Name}}, bin{{.Name}}, args...)
 }
 {{end}}
 // New{{.Name}} creates a new instance of the contract at a specific address
-func New{{.Name}}(addr ethgo.Address, opts ...contract.ContractOption) *{{.Name}} {
-	return &{{.Name}}{c: contract.NewContract(addr, abi{{.Name}}, opts...)}
+func New{{.Name}}(addr ethgo.Address, provider *jsonrpc.Client) *{{.Name}} {
+	return &{{.Name}}{c: contract.NewContract(addr, abi{{.Name}}, provider)}
+}
+
+// Contract returns the contract object
+func ({{.Ptr}} *{{.Name}}) Contract() *contract.Contract {
+	return {{.Ptr}}.c
 }
 
 // calls
@@ -232,14 +236,14 @@ func ({{$.Ptr}} *{{$.Name}}) {{funcName $key}}({{range $index, $val := tupleElem
 // txns
 {{range $key, $value := .Abi.Methods}}{{if not .Const}}
 // {{funcName $key}} sends a {{$key}} transaction in the solidity contract
-func ({{$.Ptr}} *{{$.Name}}) {{funcName $key}}({{range $index, $input := tupleElems .Inputs}}{{if $index}}, {{end}}{{clean .Name}} {{arg .}}{{end}}) (contract.Txn, error) {
+func ({{$.Ptr}} *{{$.Name}}) {{funcName $key}}({{range $index, $input := tupleElems .Inputs}}{{if $index}}, {{end}}{{clean .Name}} {{arg .}}{{end}}) *contract.Txn {
 	return {{$.Ptr}}.c.Txn("{{$key}}"{{range $index, $elem := tupleElems .Inputs}}, {{clean $elem.Name}}{{end}})
 }
 {{end}}{{end}}
 // events
 {{range $key, $value := .Abi.Events}}
 func ({{$.Ptr}} *{{$.Name}}) {{funcName $key}}EventSig() ethgo.Hash {
-	return {{$.Ptr}}.c.GetABI().Events["{{funcName $key}}"].ID()
+	return {{$.Ptr}}.c.ABI().Events["{{funcName $key}}"].ID()
 }
 {{end}}`
 
@@ -249,7 +253,7 @@ import (
 	"encoding/hex"
 	"fmt"
 
-	"github.com/git-yongge/ethgo/abi"
+	"github.com/umbracle/ethgo/abi"
 )
 
 var abi{{.Name}} *abi.ABI

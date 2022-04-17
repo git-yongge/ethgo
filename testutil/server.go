@@ -15,9 +15,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/git-yongge/ethgo"
-	"github.com/git-yongge/ethgo/compiler"
 	"github.com/ory/dockertest"
+	"github.com/umbracle/ethgo"
+	"github.com/umbracle/ethgo/compiler"
 	"golang.org/x/crypto/sha3"
 )
 

@@ -1,9 +1,11 @@
 package wallet
 
 import (
+	"encoding/hex"
+	"fmt"
 	"math/big"
 
-	"github.com/git-yongge/ethgo"
+	"github.com/umbracle/ethgo"
 	"github.com/umbracle/fastrlp"
 )
 
@@ -12,7 +14,7 @@ type Signer interface {
 	RecoverSender(tx *ethgo.Transaction) (ethgo.Address, error)
 
 	// SignTx signs a transaction
-	SignTx(tx *ethgo.Transaction, key ethgo.Key) (*ethgo.Transaction, error)
+	SignTx(tx *ethgo.Transaction, key *Key) (*ethgo.Transaction, error)
 }
 
 type EIP1155Signer struct {
@@ -40,18 +42,10 @@ func (e *EIP1155Signer) RecoverSender(tx *ethgo.Transaction) (ethgo.Address, err
 	return addr, nil
 }
 
-func trimBytesZeros(b []byte) []byte {
-	var i int
-	for i = 0; i < len(b); i++ {
-		if b[i] != 0x0 {
-			break
-		}
-	}
-	return b[i:]
-}
-
-func (e *EIP1155Signer) SignTx(tx *ethgo.Transaction, key ethgo.Key) (*ethgo.Transaction, error) {
+func (e *EIP1155Signer) SignTx(tx *ethgo.Transaction, key *Key) (*ethgo.Transaction, error) {
 	hash := signHash(tx, e.chainID)
+
+	fmt.Println("hash==>", hex.EncodeToString(hash))
 
 	sig, err := key.Sign(hash)
 	if err != nil {
@@ -59,9 +53,10 @@ func (e *EIP1155Signer) SignTx(tx *ethgo.Transaction, key ethgo.Key) (*ethgo.Tra
 	}
 
 	vv := uint64(sig[64]) + 35 + e.chainID*2
+	fmt.Println("vv==>", vv)
 
-	tx.R = trimBytesZeros(sig[:32])
-	tx.S = trimBytesZeros(sig[32:64])
+	tx.R = sig[:32]
+	tx.S = sig[32:64]
 	tx.V = new(big.Int).SetUint64(vv).Bytes()
 	return tx, nil
 }

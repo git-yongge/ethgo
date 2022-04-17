@@ -7,9 +7,9 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/git-yongge/ethgo"
-	"github.com/git-yongge/ethgo/crypto-ecdsa"
 	"github.com/stretchr/testify/assert"
+	"github.com/umbracle/ethgo"
+	"github.com/umbracle/ethgo/crypto-ecdsa"
 )
 
 func TestSigner_EIP1155(t *testing.T) {

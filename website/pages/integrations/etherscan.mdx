@@ -1,6 +1,6 @@
 
 import GoDocLink from '../../components/godoc'
-import {Log, Address, Hash, Blocktag, Block, Transaction, Receipt, LogFilter} from '../../components/primitives'
+import {Address, Hash, Blocktag, Block, Transaction, Receipt} from '../../components/primitives'
 
 # Etherscan
 
@@ -12,8 +12,8 @@ Create an instance of Etherscan from a network id:
 package main
 
 import (
-    "github.com/git-yongge/ethgo/etherscan"
-    "github.com/git-yongge/ethgo"
+    "github.com/umbracle/ethgo/etherscan"
+    "github.com/umbracle/ethgo"
 )
 
 func main() {
@@ -73,32 +73,3 @@ Input:
 Output:
 
 - `code` (`[]byte`): Code of the contract.
-
-## GetLogs
-
-<GoDocLink href="etherscan#Etherscan.GetLogs">GetLogs</GoDocLink> returns the logs given a log filter.
-
-```go
-filter := &ethgo.LogFilter{
-    Address: []ethgo.Address{
-        ethgo.HexToAddress("..."),
-    },
-}
-logs, err := ethscan.GetLogs(filter)
-```
-
-Input:
-
-- `filter` <LogFilter/>: Filter for the logs to return.
-
-Output:
-
-- `logs` <Log text="[]Log"/>: List of logs that match the filter.
-
-## GasPrice
-
-<GoDocLink href="etherscan#Etherscan.GasPrice">GasPrice</GoDocLink> returns the gas price of the latest block.
-
-Output:
-
-- `gasPrice` (`uint64`): Gas price of the latest block.

@@ -3,7 +3,7 @@ package wallet
 import (
 	"io/ioutil"
 
-	"github.com/git-yongge/ethgo/keystore"
+	"github.com/umbracle/ethgo/keystore"
 )
 
 func NewJSONWalletFromFile(path string, password string) (*Key, error) {

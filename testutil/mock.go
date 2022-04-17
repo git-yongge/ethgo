@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/git-yongge/ethgo"
+	"github.com/umbracle/ethgo"
 )
 
 type mockCall int
