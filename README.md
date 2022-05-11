@@ -9,8 +9,8 @@ package main
 import (
 	"fmt"
 	
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/jsonrpc"
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/jsonrpc"
 )
 
 func main() {
@@ -40,7 +40,7 @@ The ABI codifier uses randomized tests with e2e integration tests with a real Ge
 To use the library import:
 
 ```
-"github.com/umbracle/ethgo/abi"
+"github.com/git-yongge/ethgo/abi"
 ```
 
 Declare basic objects:
@@ -80,8 +80,8 @@ You can also codify structs as Solidity tuples:
 import (
 	"fmt"
     
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/abi"
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/abi"
 	"math/big"
 )
 
@@ -155,8 +155,8 @@ Resolve names on the Ethereum Name Service registrar.
 import (
     "fmt"
 
-    "github.com/umbracle/ethgo/jsonrpc"
-    "github.com/umbracle/ethgo/ens"
+    "github.com/git-yongge/ethgo/jsonrpc"
+    "github.com/git-yongge/ethgo/ens"
 )
 
 func main() {
@@ -183,8 +183,8 @@ func main() {
 import (
     "fmt"
 
-    "github.com/umbracle/ethgo/jsonrpc"
-    "github.com/umbracle/ethgo/blocktracker"
+    "github.com/git-yongge/ethgo/jsonrpc"
+    "github.com/git-yongge/ethgo/blocktracker"
 )
 
 func main() {

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/abi"
-	"github.com/umbracle/ethgo/jsonrpc"
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/abi"
+	"github.com/git-yongge/ethgo/jsonrpc"
 )
 
 // Contract is an Ethereum contract

@@ -3,13 +3,13 @@ package wallet
 import (
 	ecdsa2 "crypto/ecdsa"
 	"encoding/hex"
-	"fmt"
+	"github.com/git-yongge/ethgo/jsonrpc"
 	"math/big"
 	"testing"
 
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/crypto-ecdsa"
 	"github.com/stretchr/testify/assert"
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/crypto-ecdsa"
 )
 
 func TestSigner_EIP1155(t *testing.T) {
@@ -41,35 +41,41 @@ func TestSigner_EIP1155(t *testing.T) {
 }
 
 func TestKey_Sign(t *testing.T) {
-	signer1 := NewEIP155Signer(80001)
+	signer1 := NewEIP155Signer(97)
 
-	from := ethgo.HexToAddress("0xD615c42CF7856e0634404B7584EF8FcD6CC9B896")
-	to := ethgo.HexToAddress("0x0079fbaceb8f886009f55639b5506b5de4ed75cb")
-	hexprv := "22a90d9711350a0b7c7c697ccb26dd1224ffbf16f6430220d28f0a30235fb01e"
+	from := ethgo.HexToAddress("0x5573143eBA235545BE5548E1107dD7B92713EF18")
+	to := ethgo.HexToAddress("0x89055606E4DD8F04C3014903C202AfF35691D2BA")
+	hexprv := "7ccd2ecc25ab5332f5f7a564d7b785f86309c3597ac3ab45030c3bb4dfd67e5e"
 	eckey, err := ecdsa.Hex2Privkey(hexprv)
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	c, _ := jsonrpc.NewClient("https://data-seed-prebsc-1-s1.binance.org:8545/")
+	nonce, err := c.Eth().GetNonce(from, ethgo.Latest)
+	if err != nil {
+		t.Fatal("GetNonce err", err)
+	}
+	t.Log("get nonce", nonce)
+
 	ecdsaKey := new(ecdsa2.PrivateKey)
 	ecdsaKey.PublicKey = eckey.PublicKey
 	ecdsaKey.D = eckey.D
 	key := NewKey(ecdsaKey)
-	hexData := "40c10f19000000000000000000000000d615c42cf7856e0634404b7584ef8fcd6cc9b8960000000000000000000000000000000000000000000000000000000000000001"
-	data, err := hex.DecodeString(hexData)
-	if err != nil {
-		t.Fatal(err)
-	}
+	//hexData := "40c10f19000000000000000000000000d615c42cf7856e0634404b7584ef8fcd6cc9b8960000000000000000000000000000000000000000000000000000000000000001"
+	//data, err := hex.DecodeString(hexData)
+	//if err != nil {
+	//	t.Fatal(err)
+	//}
+
 	txn := &ethgo.Transaction{
-		Nonce:    50,
-		From:     from,
+		Nonce:    nonce,
 		To:       &to,
-		Value:    big.NewInt(0),
-		Gas:      234723,     // 394e3
-		GasPrice: 5000000000, // 12a05f200
-		Input:    data,
+		Value:    big.NewInt(1000000000),
+		Gas:      234723,      // 394e3
+		GasPrice: 10000000000, // 12a05f200
 	}
-	fmt.Println("input==>", hex.EncodeToString(txn.Input))
+	t.Log("input==>", hex.EncodeToString(txn.Input))
 	signtxn, err := signer1.SignTx(txn, key)
 	if err != nil {
 		t.Fatal("signtx err", err)
@@ -78,7 +84,7 @@ func TestKey_Sign(t *testing.T) {
 	b, _ := signtxn.MarshalRLPTo(nil)
 	t.Log("0x" + hex.EncodeToString(b))
 
-	signer2 := NewEIP155Signer(80001)
+	signer2 := NewEIP155Signer(97)
 	from2, err := signer2.RecoverSender(txn)
 	if err != nil {
 		t.Fatal("recover err", err)

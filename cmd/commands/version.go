@@ -2,7 +2,7 @@ package commands
 
 import (
 	"github.com/mitchellh/cli"
-	"github.com/umbracle/ethgo/cmd/version"
+	"github.com/git-yongge/ethgo/cmd/version"
 )
 
 // VersionCommand is the command to show the version of the agent

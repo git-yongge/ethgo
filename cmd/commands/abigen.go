@@ -2,7 +2,7 @@ package commands
 
 import (
 	flag "github.com/spf13/pflag"
-	"github.com/umbracle/ethgo/cmd/abigen"
+	"github.com/git-yongge/ethgo/cmd/abigen"
 )
 
 // VersionCommand is the command to show the version of the agent

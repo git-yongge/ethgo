@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/umbracle/ethgo"
-	"github.com/umbracle/ethgo/contract/builtin/ens"
-	"github.com/umbracle/ethgo/jsonrpc"
+	"github.com/git-yongge/ethgo"
+	"github.com/git-yongge/ethgo/jsonrpc"
 )
 
 type EnsConfig struct {
@@ -82,7 +81,7 @@ func NewENS(opts ...EnsOption) (*ENS, error) {
 	return ens, nil
 }
 
-func (e *ENS) Resolve(name string) (ethgo.Address, error) {
-	resolver := ens.NewENSResolver(e.config.Resolver, e.config.Client)
-	return resolver.Resolve(name)
-}
+//func (e *ENS) Resolve(name string) (ethgo.Address, error) {
+//	resolver := ens.NewENSResolver(e.config.Resolver, e.config.Client)
+//	return resolver.Resolve(name)
+//}

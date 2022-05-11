@@ -1,7 +1,7 @@
 package ecdsa
 
 import (
-	"github.com/umbracle/ethgo/crypto-ecdsa/secp256k1"
+	"github.com/git-yongge/ethgo/crypto-ecdsa/secp256k1"
 )
 
 func S256() *secp256k1.KoblitzCurve {
