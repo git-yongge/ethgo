@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"github.com/git-yongge/ethgo/crypto-ecdsa/secp256k1"
+	secp256k12 "github.com/git-yongge/ethgo/crypto/ecdsa/secp256k1"
 	"math/big"
 )
 
@@ -73,7 +73,7 @@ func (p *PublicKey) IsEqual(otherPubKey *PublicKey) bool {
 }
 
 // ParsePubKey 公钥反序列化
-func ParsePubKey(pubKeyStr []byte, curve *secp256k1.KoblitzCurve) (key *PublicKey, err error) {
+func ParsePubKey(pubKeyStr []byte, curve *secp256k12.KoblitzCurve) (key *PublicKey, err error) {
 	pubkey := PublicKey{}
 	pubkey.Curve = curve
 

@@ -2,7 +2,7 @@ package ecdsa
 
 import (
 	"encoding/hex"
-	sha3 "github.com/git-yongge/crypto-sha3"
+	"github.com/git-yongge/ethgo/crypto/sha3"
 	"testing"
 )
 
@@ -73,4 +73,11 @@ func TestRecoverCompact(t *testing.T) {
 	}
 	t.Log(pub.Hex())
 
+}
+
+func TestGenerateTopic(t *testing.T) {
+	m := sha3.MethodSig("withdrawTxFee")
+	t.Log(hex.EncodeToString(m))
+	t.Log(GenerateTopic("withdrawTxFee()"))
+	t.Log(GenerateTopic("transfer(address,uint256)"))
 }

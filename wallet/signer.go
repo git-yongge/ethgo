@@ -1,8 +1,6 @@
 package wallet
 
 import (
-	"encoding/hex"
-	"fmt"
 	"math/big"
 
 	"github.com/git-yongge/ethgo"
@@ -45,15 +43,12 @@ func (e *EIP1155Signer) RecoverSender(tx *ethgo.Transaction) (ethgo.Address, err
 func (e *EIP1155Signer) SignTx(tx *ethgo.Transaction, key *Key) (*ethgo.Transaction, error) {
 	hash := signHash(tx, e.chainID)
 
-	fmt.Println("hash==>", hex.EncodeToString(hash))
-
 	sig, err := key.Sign(hash)
 	if err != nil {
 		return nil, err
 	}
 
 	vv := uint64(sig[64]) + 35 + e.chainID*2
-	fmt.Println("vv==>", vv)
 
 	tx.R = sig[:32]
 	tx.S = sig[32:64]

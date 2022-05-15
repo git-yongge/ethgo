@@ -7,7 +7,8 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"errors"
-	"github.com/git-yongge/ethgo/crypto-ecdsa/secp256k1"
+	secp256k12 "github.com/git-yongge/ethgo/crypto/ecdsa/secp256k1"
+	"github.com/git-yongge/ethgo/crypto/sha3"
 	"hash"
 	"math/big"
 )
@@ -84,7 +85,7 @@ func (sig *Signature) IsEqual(otherSig *Signature) bool {
 // returned in the format:
 // <(byte of 27+public key solution)+4 if compressed >< padded bytes for signature R><padded bytes for signature S>
 // where the R and S parameters are padde up to the bitlengh of the curve.
-func SignCompact(curve *secp256k1.KoblitzCurve, key *PrivateKey, hash []byte, isCompressedKey bool) ([]byte, error) {
+func SignCompact(curve *secp256k12.KoblitzCurve, key *PrivateKey, hash []byte, isCompressedKey bool) ([]byte, error) {
 	sig, err := key.Sign(hash)
 	if err != nil {
 		return nil, err
@@ -130,7 +131,7 @@ func SignCompact(curve *secp256k1.KoblitzCurve, key *PrivateKey, hash []byte, is
 // Koblitz curve in "curve". If the signature matches then the recovered public
 // key will be returned as well as a boolen if the original key was compressed
 // or not, else an error will be returned.
-func RecoverCompact(curve *secp256k1.KoblitzCurve, signature, hash []byte) (*PublicKey, bool, error) {
+func RecoverCompact(curve *secp256k12.KoblitzCurve, signature, hash []byte) (*PublicKey, bool, error) {
 	bitlen := (curve.BitSize + 7) / 8
 	if len(signature) != 1+bitlen*2 {
 		return nil, false, errors.New("invalid compact signature size")
@@ -159,7 +160,7 @@ func RecoverCompact(curve *secp256k1.KoblitzCurve, signature, hash []byte) (*Pub
 // of the loop * 2 - on the first iteration of j we do the R case, else the -R
 // case in step 1.6. This counter is used in the bitcoin compressed signature
 // format and thus we match bitcoind's behaviour here.
-func recoverKeyFromSignature(curve *secp256k1.KoblitzCurve, sig *Signature, msg []byte,
+func recoverKeyFromSignature(curve *secp256k12.KoblitzCurve, sig *Signature, msg []byte,
 	iter int, doChecks bool) (*PublicKey, error) {
 	// 1.1 x = (n * i) + r
 	Rx := new(big.Int).Mul(curve.Params().N,
@@ -376,4 +377,9 @@ func bits2octets(in []byte, curve elliptic.Curve, rolen int) []byte {
 		return int2octets(z1, rolen)
 	}
 	return int2octets(z2, rolen)
+}
+
+// GenerateTopic generate input hex
+func GenerateTopic(input string) string {
+	return sha3.Keccak256Hash([]byte(input)).String()
 }
